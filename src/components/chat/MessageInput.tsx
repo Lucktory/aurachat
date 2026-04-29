@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Send, Smile, ImagePlus, X } from 'lucide-react'
+import EmojiPicker from './EmojiPicker'
 
 interface MessageInputProps {
   onSend: (text: string, imageUrl?: string) => void
@@ -10,6 +11,7 @@ interface MessageInputProps {
 export default function MessageInput({ onSend, disabled = false }: MessageInputProps) {
   const [text, setText] = useState('')
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [showEmoji, setShowEmoji] = useState(false)
   const textRef = useRef<HTMLTextAreaElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -48,6 +50,11 @@ export default function MessageInput({ onSend, disabled = false }: MessageInputP
     if (!disabled) textRef.current?.focus()
   }, [disabled])
 
+  const handleEmojiSelect = (emoji: string) => {
+    setText((prev) => prev + emoji)
+    textRef.current?.focus()
+  }
+
   const canSend = (text.trim().length > 0 || !!imagePreview) && !disabled
 
   return (
@@ -80,8 +87,16 @@ export default function MessageInput({ onSend, disabled = false }: MessageInputP
       </AnimatePresence>
 
       {/* Input row */}
-      <div className="glass rounded-2xl border border-white/10 flex items-end gap-2 p-2 focus-within:border-accent-purple/35 transition-colors">
-        <button className="p-2 rounded-xl text-brand-muted hover:text-brand-secondary hover:bg-bg-hover transition-colors flex-shrink-0">
+      <div className="relative glass rounded-2xl border border-white/10 flex items-end gap-2 p-2 focus-within:border-accent-purple/35 transition-colors">
+        <AnimatePresence>
+          {showEmoji && (
+            <EmojiPicker onSelect={handleEmojiSelect} onClose={() => setShowEmoji(false)} />
+          )}
+        </AnimatePresence>
+        <button
+          onClick={() => setShowEmoji((v) => !v)}
+          className={`p-2 rounded-xl transition-colors flex-shrink-0 ${showEmoji ? 'text-accent-purple bg-accent-purple/10' : 'text-brand-muted hover:text-brand-secondary hover:bg-bg-hover'}`}
+        >
           <Smile size={18} />
         </button>
 
