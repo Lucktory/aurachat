@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #08060D;
+    color: #F5F0FF;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  #root {
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  ::-webkit-scrollbar       { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: #100D18; }
+  ::-webkit-scrollbar-thumb { background: #A855F744; border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #A855F788; }
+}
+
+@layer components {
+  /* ── Glassmorphism ── */
+  .glass {
+    background: rgba(255, 255, 255, 0.035);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+  }
+
+  /* ── Gradient border card ── */
+  .gradient-border {
+    position: relative;
+    background: #100D18;
+    border-radius: 1rem;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #A855F7, #EC4899);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .gradient-border-animated::before {
+    background: linear-gradient(135deg, #A855F7, #EC4899, #38BDF8, #A855F7);
+    background-size: 300% 300%;
+    animation: gradient-x 3s ease infinite;
+  }
+
+  /* ── Glow button ── */
+  .glow-btn {
+    position: relative;
+    background: linear-gradient(135deg, #7C3AED, #EC4899);
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  .glow-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .glow-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 32px rgba(168,85,247,0.55), 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .glow-btn:hover::after { opacity: 1; }
+  .glow-btn:active        { transform: scale(0.97) translateY(0); }
+
+  /* ── Shimmer ── */
+  .shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(168,85,247,0.18) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  /* ── Online dot ── */
+  .online-indicator { position: relative; }
+  .online-indicator::after {
+    content: '';
+    position: absolute;
+    bottom: 1px; right: 1px;
+    width: 10px; height: 10px;
+    background: #22c55e;
+    border-radius: 50%;
+    border: 2px solid #100D18;
+    animation: pulse 2s infinite;
+  }
+
+  /* ── Chat bubbles ── */
+  .msg-bubble-ai {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 4px 20px 20px 20px;
+  }
+
+  .msg-bubble-user {
+    background: linear-gradient(135deg, rgba(109,40,217,0.52), rgba(190,24,93,0.38));
+    border: 1px solid rgba(168,85,247,0.22);
+    border-radius: 20px 4px 20px 20px;
+    box-shadow: 0 4px 18px rgba(168,85,247,0.14);
+    backdrop-filter: blur(8px);
+  }
+
+  /* ── Locked content gradient overlay ── */
+  .locked-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(8, 6, 13, 0) 0%,
+      rgba(8, 6, 13, 0.45) 40%,
+      rgba(8, 6, 13, 0.88) 100%
+    );
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #A855F7, #EC4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-blue {
+    background: linear-gradient(135deg, #38BDF8, #A855F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
