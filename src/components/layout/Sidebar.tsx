@@ -3,6 +3,7 @@ import { Search, X } from 'lucide-react'
 import { useStore } from '@/store/useStore'
 import CharacterCard from '@/components/characters/CharacterCard'
 import StoriesBar from '@/components/stories/StoriesBar'
+import type { Character } from '@/types'
 
 function SidebarContent({
   search,
@@ -15,9 +16,9 @@ function SidebarContent({
 }: {
   search: string
   setSearch: (v: string) => void
-  filtered: ReturnType<typeof useStore>['characters']
+  filtered: Character[]
   selectedId?: string
-  onSelect: (char: ReturnType<typeof useStore>['characters'][0]) => void
+  onSelect: (char: Character) => void
   onClose: () => void
   showClose: boolean
 }) {
